@@ -1,14 +1,19 @@
-function rob(nums) {
-  if (nums.length === 1) return nums[0];
-  const robRange = (start, end) => {
-    let prevMax = 0;
-    let currMax = 0;
-    for (let i = start; i <= end; i++) {
-      const temp = currMax;
-      currMax = Math.max(currMax, prevMax + nums[i]);
-      prevMax = temp;
-    }
-    return currMax;
-  };
-  return Math.max(robRange(0, nums.length - 2), robRange(1, nums.length - 1));
+function LRUCache(capacity) {
+  this.capacity = capacity;
+  this.cache = new Map();
 }
+LRUCache.prototype.get = function (key) {
+  if (!this.cache.has(key)) return -1;
+  const value = this.cache.get(key);
+  this.cache.delete(key);
+  this.cache.set(key, value);
+  return value;
+};
+LRUCache.prototype.put = function (key, value) {
+  if (this.cache.has(key)) this.cache.delete(key);
+  if (this.cache.size === this.capacity) {
+    const firstKey = this.cache.keys().next().value;
+    this.cache.delete(firstKey);
+  }
+  this.cache.set(key, value);
+};
