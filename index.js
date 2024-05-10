@@ -1,1 +1,2 @@
-const reverseWords = (str) => str.split(" ").reverse().join(" ");
+const deepFlatten = (arr) =>
+  [].concat(...arr.map((v) => (Array.isArray(v) ? deepFlatten(v) : v)));
