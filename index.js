@@ -1,14 +1,20 @@
-function rob(nums) {
-  if (nums.length === 1) return nums[0];
-  const robRange = (start, end) => {
-    let prevMax = 0;
-    let currMax = 0;
-    for (let i = start; i <= end; i++) {
-      const temp = currMax;
-      currMax = Math.max(currMax, prevMax + nums[i]);
-      prevMax = temp;
+function isAlienSorted(words, order) {
+  const dict = new Map();
+  for (let i = 0; i < order.length; i++) {
+    dict.set(order[i], i);
+  }
+  for (let i = 0; i < words.length - 1; i++) {
+    const word1 = words[i];
+    const word2 = words[i + 1];
+    let found = false;
+    for (let j = 0; j < Math.min(word1.length, word2.length); j++) {
+      if (word1[j] !== word2[j]) {
+        if (dict.get(word1[j]) > dict.get(word2[j])) return false;
+        found = true;
+        break;
+      }
     }
-    return currMax;
-  };
-  return Math.max(robRange(0, nums.length - 2), robRange(1, nums.length - 1));
+    if (!found && word1.length > word2.length) return false;
+  }
+  return true;
 }
