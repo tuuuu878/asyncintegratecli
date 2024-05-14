@@ -1,12 +1,26 @@
-function rotate(matrix) {
-  const n = matrix.length;
-  for (let i = 0; i < Math.floor(n / 2); i++) {
-    for (let j = i; j < n - i - 1; j++) {
-      const temp = matrix[i][j];
-      matrix[i][j] = matrix[n - j - 1][i];
-      matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
-      matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
-      matrix[j][n - i - 1] = temp;
+function isValidSudoku(board) {
+  for (let i = 0; i < 9; i++) {
+    const row = new Set();
+    const col = new Set();
+    const box = new Set();
+    for (let j = 0; j < 9; j++) {
+      const rowVal = board[i][j];
+      const colVal = board[j][i];
+      const boxVal =
+        board[3 * Math.floor(i / 3) + Math.floor(j / 3)][3 * (i % 3) + (j % 3)];
+      if (rowVal !== ".") {
+        if (row.has(rowVal)) return false;
+        row.add(rowVal);
+      }
+      if (colVal !== ".") {
+        if (col.has(colVal)) return false;
+        col.add(colVal);
+      }
+      if (boxVal !== ".") {
+        if (box.has(boxVal)) return false;
+        box.add(boxVal);
+      }
     }
   }
+  return true;
 }
